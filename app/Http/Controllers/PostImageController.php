@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostImage\StoreRequest;
+use App\Http\Resources\PostImage\PostImageResource;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 
 class PostImageController extends Controller
 {
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): PostImageResource
     {
-        return  2222222;
+        $path = \Storage::disk('public')->put('/images', $request['image']);
+       $image =  PostImage::create([
+            'path' => $path,
+            'user_id' => auth()->id(),
+        ]);
+        return new PostImageResource($image);
     }
 }
