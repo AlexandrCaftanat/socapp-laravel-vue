@@ -5,7 +5,7 @@ import router from "@/router/router.js";
 
 
 const app = createApp({});
-import Index from './components/Index.vue';
+import Index from './views/Index.vue';
 app.component('index', Index);
 app.use(router);
 

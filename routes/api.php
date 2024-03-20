@@ -19,7 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'],function(){
-   Route::post('/posts', ['App\Http\Controllers\PostController', 'store']);
+    Route::get('/users', ['App\Http\Controllers\UserController', 'index']);
+    Route::get('/users/{user}/posts', ['App\Http\Controllers\UserController', 'post']);
+
+
+    Route::post('/posts', ['App\Http\Controllers\PostController', 'store']);
+    Route::get('/posts', ['App\Http\Controllers\PostController', 'index']);
   Route::post('/post_images', ['App\Http\Controllers\PostImageController', 'store']);
 });
 

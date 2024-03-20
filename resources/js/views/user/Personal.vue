@@ -1,4 +1,5 @@
 <script>
+import Post from "../../components/Post.vue";
 export default {
     name: 'Personal',
     data() {
@@ -7,7 +8,16 @@ export default {
             content: '',
             fileInput: '',
             image: null,
+            posts: [],
         }
+    },
+
+    components: {
+      Post,
+    },
+
+    mounted() {
+        this.getPosts();
     },
 
     methods : {
@@ -36,7 +46,14 @@ export default {
                     this.title = '';
                     this.content = '';
                     this.image = null;
-                    console.log(res);
+                    this.posts.unshift(res.data.data);
+                })
+        },
+
+        getPosts() {
+            axios.get('/api/posts')
+                .then( res => {
+                    this.posts = res.data.data;
                 })
         }
     },
@@ -68,10 +85,16 @@ export default {
     <div v-if="image" class="added_img mb-4">
         <img :src="image.url" alt="preview">
     </div>
-        <div class="btn">
+        <div class="btn mb-8">
             <a @click.prevent="store" href="#" class="hover:border block p-3 w-32 bg-amber-900 text-transform: uppercase rounded-2xl text-white text-center hover:bg-white hover:text-amber-900 hover:border-amber-900">Publish</a>
         </div>
 </div>
+
+
+        <div v-if="this.posts" class="posts">
+            <h1 class="mb-4" >Posts</h1>
+            <post v-for="post in posts" :post="post"></post>
+        </div>
     </div>
 </template>
 
